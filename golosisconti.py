@@ -23,19 +23,18 @@ def scrape_offers():
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
         offers = []
-		# Scraping per trovare il venditore, prodotto e prezzo
+	# Scraping per trovare il venditore, prodotto e prezzo
         retailer_tags = soup.find_all('h3', class_='product__retailer-name font--bold')
         product_tags = soup.find_all('h2', class_='product__name font--bold')
         price_tags = soup.find_all('h4', class_='product__price-extended color--primary font--bold')
 		
-		# Verrà selezionato qualsiasi prodotto che abbia nel campo di testo il nome del prodotto
+	# Verrà selezionato qualsiasi prodotto che abbia nel campo di testo il nome del prodotto
         for retailer_tag, product_tag, price_tag in zip(retailer_tags, product_tags, price_tags):
             retailer = retailer_tag.text.strip()
             product = product_tag.text.strip()
             price = price_tag.find('span', class_='digits').text.strip()
-            if 'monster' in product.lower():
+            if 'monster' in product.lower(): # <- IMPORTANTE sostituisci monster con il nome di qualsiasi prodotto che vuoi cercare nella categoria di prodotti definita nella pagina web
                 offers.append({'retailer': retailer, 'product': product, 'price': price})
-
         return offers
 
 # Funzione per la ricerca delle offerte (puoi mostrare all'utente la lista con il comando configurandolo da @Bot_Father)
